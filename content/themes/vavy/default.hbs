@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    {{!-- Document Settings --}}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+    
+    {{!-- Base Meta --}}
+    <title>{{meta_title}}</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700|Noto+Serif:400,400italic,700,700italic' rel='stylesheet'
+        type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Tulpen+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Advent+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cuprum" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{asset "/vendor/css/bootstrap/bootstrap.min.css"}}">
+
+    <link rel="stylesheet" href="{{asset "vendor/css/highlightjs/vs2015dark.css"}}">
+
+
+    {{!-- Styles'n'Scripts --}}
+
+    <link rel="stylesheet" type="text/css" href="{{asset "built/style.css"}}" /> 
+
+    {{!-- This tag outputs SEO meta+structured data and other important settings --}} 
+    {{ghost_head}}
+
+</head>
+
+<body class="{{body_class}}">
+    <div class="container-fluid h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col-2 left-default-column text-center fixed-top">
+                <img class="profile-image img-fluid" src="{{asset "images/profile.jpg"}}" alt="profile image" />
+                <p class="blog text-center">CODES REALM</p>
+                <p class="moto">Journey of a Full Stack Developer.</p>
+            </div>
+            <div class="col-10 right-default-column offset-md-2">
+
+                {{!-- All the main content gets inserted here, index.hbs, post.hbs, etc --}} 
+                
+                <div class="row">
+                    <div class="col-md-10 content">
+                        <div class="row navigation-container">
+                            <div class="col-md-4 offset-md-8 navigation-link">
+                                <span><a href="/">HOME</a></span>
+                                <span><a href="/about">ABOUT</a></span>
+                                <span><a href="/contact">CONTACT</a></span>
+                                <span id="overlaytrigger"><i class="fas fa-search"></i></span>
+                            </div>
+                        </div>
+
+                        {{!-- <div id="site-search" style="display: none; text-aling: center">
+                            <input class="typeahead" type="text" placeholder="Search">
+                        </div> --}}
+
+                        {{{body}}} 
+                    </div>
+                    <div class="col-md-2">
+                        {{>featureds}}
+
+                        <a id="back2Top" title="Back to top" href="#">&#10148;</a>
+                    </div>
+                </div>
+
+
+                <div id="myOverlay" class="overlay">
+                    <span id="closeoverlay" class="closebtn" title="Close Overlay"><i class="fas fa-times"></i></span>
+                    <div id="overlay-contentid" class="overlay-content">
+                        <input class="typeahead" type="text" placeholder="Search.." name="search" autofocus />
+                    </div>
+                </div>
+
+
+                {{!-- The footer at the very bottom of the screen --}}
+
+                <footer class="site-footer outer">
+                    <div class="site-footer-content inner">
+                        <section class="copyright">
+                            <a href="{{@blog.url}}">{{@blog.title}}</a> &copy; {{date format="YYYY"}}</section>
+                        <nav class="site-footer-nav">
+                            <a href="{{@blog.url}}">Latest Posts</a>
+
+                            {{#if @blog.facebook}}
+                                <a href="{{facebook_url @blog.facebook}}" target="_blank" rel="noopener">Facebook</a>
+                            {{/if}} 
+
+                            {{#if @blog.twitter}}
+                                <a href="{{twitter_url @blog.twitter}}" target="_blank" rel="noopener">Twitter</a>
+                            {{/if}}
+                            
+                            <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                        </nav>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+
+
+    {{!-- jQuery + Fitvids, which makes all video embeds responsive --}}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="{{asset "js/jquery.fitvids.js"}}"></script> 
+    
+    {{#if pagination.pages}}
+        <script>
+            var maxPages = parseInt('{{pagination.pages}}');
+        </script>
+        <script src="{{asset "js/infinitescroll.js"}}"></script> 
+    {{/if}} 
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+    
+    {{!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. --}} 
+    
+    <script>
+
+    //Wait for other things to be loaded so the site doesn't wait on the search
+    $(document).ready(function() {
+
+{{!-- https://html-online.com/articles/dynamic-scroll-back-top-page-button-javascript/ --}}
+{{!-- https://www.w3schools.com/howto/howto_css_fullscreen_search.asp --}}
+
+
+        var overlayElement = document.getElementById("myOverlay");
+
+        document.getElementById("overlaytrigger").addEventListener('click', function(){
+            overlayElement.style.display = "block";
+        });
+
+        document.getElementById("closeoverlay").addEventListener('click', function(){
+            overlayElement.style.display = "none";
+        })
+
+
+
+         /*Scroll to top when arrow up clicked BEGIN*/
+        $(window).scroll(function () {
+            var height = $(window).scrollTop();
+            if (height > 100) {
+                $('#back2Top').fadeIn();
+            } else {
+                $('#back2Top').fadeOut();
+            }
+        });
+
+
+        $("#back2Top").click(function (event) {
+            event.preventDefault();
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+            return false;
+        });
+
+
+        /*Scroll to top when arrow up clicked END*/
+
+
+        //Go grab all the posts on the blog, but only the slug and title fields
+        //That helps limit the amount of data sent and stored locally
+        $.get(ghost.url.api('posts', {limit: "all", fields: "slug,title"})).done(function(data) {
+            //add all the data returned to a variable
+            var searchData = data.posts; 
+
+            //New bloodhound to make it searchable
+            var search = new Bloodhound({
+              datumTokenizer: Bloodhound.tokenizers.obj.whitespace('title'),
+              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              local: searchData
+            });
+
+            //Build the typeahead
+            $('#overlay-contentid .typeahead').typeahead(null, {
+                  name: 'search',
+                  //source is the bloodhound variable
+                  source: search,
+                  templates: {
+                    empty: [
+                        '<div class="empty-message">',
+                        'unable to find any post that match the current query',
+                        '</div>'
+                    ].join('\n'),
+                    suggestion: function(data) {
+                        return '<p class="searchparagraph text-left"><strong><a href="' + data.slug + '"><i class="fas fa-bullseye"></i> ' + data.title + '</a></strong></p>';
+                    }
+                }
+            }); 
+
+            //Now show the search bar since getting data was successful
+            $('#site-search').show();
+        }).fail(function() {
+            //If the get request errors out, put an error in the console
+            console.log("Error getting Ghost API Data");
+        });
+    });
+    </script>
+
+    {{{block "scripts"}}} 
+    
+    {{!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag --}} 
+    
+    {{ghost_foot}}
+
+</body>
+
+</html>

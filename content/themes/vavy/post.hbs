@@ -1,0 +1,39 @@
+{{!< default}} 
+
+<div class="row div-wapper">
+    <div class="col-md-10 offset-md-1">
+        {{#post}} 
+            <article class="{{post_class}} post">
+                <a class="btn read-more-butt" href="{{@blog.url}}" title="Back to homepage">Back to home</a>
+                {{#if feature_image}}
+                    <div class="post-image-div">
+                        <img src="{{feature_image}}" class="page-post-image" />
+                        </a>
+                    </div>
+                {{/if}}
+
+                <h1 class="post-title text-center">
+                    <a href="{{url}}" title="{{title}}" class="article-title">{{title}}</a>
+                </h1>
+
+                {{#unless featured}}
+                    <div class="poster">
+                        <a href="{{url}}">
+                            <img src="{{author.profile_image}}" class="post-image" />
+                        </a> 
+                        
+                        {{author.name}} | <time datetime="{{date format=" YYYY-MM-DD "}}">{{date format="DD MMMM YYYY"}}</time>
+                    </div>
+                {{/unless}} 
+                
+                {{content}}
+            </article>
+            <hr> 
+            {{#unless featured}} 
+                {{>share}} 
+                {{>comments}} 
+            {{/unless}} 
+        {{/post}}
+    </div>
+
+</div>
