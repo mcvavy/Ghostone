@@ -28,11 +28,11 @@
                 
                 {{content}}
             </article>
-            <hr> 
-            {{#unless featured}} 
+                
+                {{>post-pagination}}
+
                 {{>share}} 
                 {{>comments}} 
-            {{/unless}} 
         {{/post}}
     </div>
 

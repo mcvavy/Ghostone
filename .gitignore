@@ -64,3 +64,4 @@ typings/
 /content/images
 
 *.zip
+core/server/config/index.js

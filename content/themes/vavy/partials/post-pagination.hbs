@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-md-5 text-center">
+    {{#prev_post}}
+        <a class="previous-posts" href="{{url}}"><p><i class="fas fa-chevron-left"></i></p> {{title}}</a>
+    {{else}}
+        <span>No previous post !</span>
+    {{/prev_post}}
+    </div>
+    <div class="col-md-5  offset-md-2 text-center">
+            {{#next_post}}
+        <a class="next-posts" href="{{url}}"> <p><i class="fas fa-chevron-right"></i></p> {{title}}</i></a>
+    {{else}}
+        <span>No next post!</span>
+    {{/next_post}}
+    </div>
+</div>

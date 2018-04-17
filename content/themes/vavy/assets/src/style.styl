@@ -82,7 +82,10 @@ html, body
                 margin-top: -100px
                 color: #FF0000
         .post
-            margin-bottom: 2em
+            margin-bottom: 6em
+            .post-nav-container
+                margin-top: 30px
+                
         .post-title
             font-size: 2em
             font-weight: bolder
@@ -131,6 +134,7 @@ html, body
 
     .share-buttons
         list-style-type: none
+        margin-top: 5em
         text-decoration: none
         padding-left: 0px
         float: right
@@ -187,6 +191,24 @@ html, body
         font-size: 18px
         line-height: 18px
 
+    .pagination
+        margin-top: 30px
+        .newer-posts, .page-number, .older-posts, .no-new-post, .no-older-post
+            padding: 5px 10px;
+            font-family: "Open Sans", sans-serif;
+            color: #000000
+            font-size: 14px
+            border-radius: 5px;
+            margin-right: 5px
+        .newer-posts, .page-number, .older-posts
+            border: 1px solid
+        .no-new-post, .no-older-post
+            border: 1px solid grey
+        a
+            color: black
+            &:hover
+                text-decoration: none
+                border: 1px solid #e51843 
 
 @import './overlaysearch'
                 
