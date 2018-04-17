@@ -113,12 +113,12 @@ html,body{height:100%;margin:0}
 .right-default-column .footer-container{background-color:#000;margin-top:70px;color:#fff;padding-top:50px;font-size:16px}
 /* line 216 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .right-default-column .disqus_thread{margin-bottom:40px}
-/* line 75 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\scrolltotop.styl */
+/* line 76 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\scrolltotop.styl */
 
-/* line 20 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
+/* line 76 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
 
 /* line 1 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
-.searchparagraph{border-bottom:10px;}
+.searchparagraph{margin-left:30px;}
 /* line 3 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
 .searchparagraph .fa-bullseye{color:#fff}
 /* line 5 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
@@ -134,12 +134,12 @@ html,body{height:100%;margin:0}
 /* line 44 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
 .overlay .closebtn:hover{color:#ccc}
 /* line 49 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
-.overlay input[type=text]{color:#fff;height:5rem;font-size:2.25rem;padding:1.25rem 0;font-weight:900;background-color:transparent;-webkit-box-shadow:none;box-shadow:none;border:0;border-bottom:.1875rem solid #fff;font-family:"Montserrat",sans-serif}
-/* line 61 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
+.overlay input[type=text]{color:#fff;height:5rem;font-size:2rem;padding:1.25rem 0;font-weight:bold;background-color:transparent;-webkit-box-shadow:none;box-shadow:none;border:0;border-bottom:.1875rem solid #fff;font-family:"Montserrat",sans-serif;width:90%}
+/* line 62 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
 .overlay input[type=text]:focus{outline:none}
-/* line 65 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
+/* line 66 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
 .overlay button{float:left;width:20%;padding:15px;background:#ddd;font-size:17px;border:none;cursor:pointer}
-/* line 74 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
+/* line 75 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
 .overlay button:hover{background:#bbb}
 /* line 14 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
 
