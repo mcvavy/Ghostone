@@ -35,7 +35,7 @@ _private.loadNconf = function loadNconf(options) {
     nconf.file('default-env', path.join(baseConfigPath, 'env', 'config.' + env + '.json'));
     nconf.file('defaults', path.join(baseConfigPath, 'defaults.json'));
 
-    //nconf.set('server:port', process.env.PORT);
+    nconf.set('server:port', process.env.PORT);
 
     /**
      * transform all relative paths to absolute paths
