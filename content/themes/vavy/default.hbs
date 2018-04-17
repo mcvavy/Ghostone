@@ -61,16 +61,25 @@
                             </div>
                         </div>
 
-                        {{!-- <div id="site-search" style="display: none; text-aling: center">
-                            <input class="typeahead" type="text" placeholder="Search">
-                        </div> --}}
-
                         {{{body}}} 
                     </div>
                     <div class="col-md-2">
                         {{>featureds}}
 
                         <a id="back2Top" title="Back to top" href="#">&#10148;</a>
+                    </div>
+                </div>
+                <div class="row footer-container">
+                    <div class="col-md-4">
+                        <div class="text-center">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center"><section class="copyright"><a href="{{@blog.url}}">{{@blog.title}}</a> &copy; {{date format="YYYY"}}</section></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center">
+                        </div>
                     </div>
                 </div>
 
@@ -85,7 +94,7 @@
 
                 {{!-- The footer at the very bottom of the screen --}}
 
-                <footer class="site-footer outer">
+                {{!-- <footer class="site-footer outer">
                     <div class="site-footer-content inner">
                         <section class="copyright">
                             <a href="{{@blog.url}}">{{@blog.title}}</a> &copy; {{date format="YYYY"}}</section>
@@ -103,7 +112,7 @@
                             <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
                         </nav>
                     </div>
-                </footer>
+                </footer> --}}
             </div>
         </div>
     </div>
