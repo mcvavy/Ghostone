@@ -52,62 +52,62 @@ html,body{height:100%;margin:0}
 /* line 79 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .right-default-column .content .blog-date .post-month-year{text-transform:uppercase;font-size:.6em;margin-top:-100px;color:#f00}
 /* line 84 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .content .post{margin-bottom:6em;}
-/* line 86 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .content .post .post-nav-container{margin-top:30px}
-/* line 89 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .content .post-title{font-size:2em;font-weight:bolder;margin-top:0;letter-spacing:-2px;text-transform:uppercase;margin-bottom:.5em}
-/* line 96 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .content a.article-title{text-decoration:none;color:#000}
-/* line 100 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .content .tags{font-size:.8em}
-/* line 103 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column a.read-more-butt{text-align:center;color:#fff;width:10em;display:block;background-color:#000;text-transform:uppercase;-webkit-transition:background-color .3s;transition:background-color .3s;border-radius:.125rem;padding:6px;font-size:.6em;font-weight:bold;margin-bottom:5em;}
-/* line 116 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column a.read-more-butt:hover{background-color:#e51843;text-decoration:none;color:#fff}
-/* line 121 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .poster{color:#9eabb3;margin-top:5px;line-height:1.42857143;font-size:.8em;margin-bottom:10px;}
-/* line 127 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .poster a{text-decoration:none}
-/* line 129 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .poster .post-image{width:24px;height:24px;margin-right:9px;border-radius:100%}
-/* line 135 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .share-buttons{list-style-type:none;margin-top:5em;text-decoration:none;padding-left:0;float:right;clear:both;}
-/* line 142 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .share-buttons li{display:inline;}
-/* line 144 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .share-buttons li:hover{color:#e51843;cursor:pointer}
-/* line 148 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .div-wapper{margin-top:2em}
-/* line 151 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .feature-aside{margin-top:50%;padding-top:3em}
-/* line 155 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .recent-posts-header{font-family:"Open Sans",sans-serif;font-style:normal;font-weight:bolder;font-size:18px;line-height:18px;color:#00b233}
-/* line 163 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .recent-post{background:rgba(222,226,230,0.541);}
-/* line 165 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .recent-post a{font-weight:bold;color:#000;font-size:18px;}
-/* line 169 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.right-default-column .recent-post a:hover{color:#f00;text-decoration:none}
-/* line 173 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 
-/* line 174 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+/* line 85 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .content .post .post-nav-container{margin-top:30px}
+/* line 88 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .content .post-title{font-size:2em;font-weight:bolder;margin-top:0;letter-spacing:-2px;text-transform:uppercase;margin-bottom:.5em}
+/* line 95 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .content a.article-title{text-decoration:none;color:#000}
+/* line 99 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .content .tags{font-size:.8em}
+/* line 102 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column a.read-more-butt{text-align:center;color:#fff;width:10em;display:block;background-color:#000;text-transform:uppercase;-webkit-transition:background-color .3s;transition:background-color .3s;border-radius:.125rem;padding:6px;font-size:.6em;font-weight:bold;margin-bottom:5em;}
+/* line 115 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column a.read-more-butt:hover{background-color:#e51843;text-decoration:none;color:#fff}
+/* line 120 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .poster{color:#9eabb3;margin-top:5px;line-height:1.42857143;font-size:.8em;margin-bottom:10px;}
+/* line 126 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .poster a{text-decoration:none}
+/* line 128 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .poster .post-image{width:24px;height:24px;margin-right:9px;border-radius:100%}
+/* line 134 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .share-buttons{list-style-type:none;margin-top:5em;text-decoration:none;padding-left:0;float:right;clear:both;}
+/* line 141 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .share-buttons li{display:inline;}
+/* line 143 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .share-buttons li:hover{color:#e51843;cursor:pointer}
+/* line 147 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .div-wapper{margin-top:2em}
+/* line 150 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .feature-aside{margin-top:50%;padding-top:3em}
+/* line 154 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .recent-posts-header{font-family:"Open Sans",sans-serif;font-style:normal;font-weight:bolder;font-size:18px;line-height:18px;color:#00b233}
+/* line 162 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .recent-post{background:rgba(222,226,230,0.541);}
+/* line 164 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .recent-post a{font-weight:bold;color:#000;font-size:18px;}
+/* line 168 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+.right-default-column .recent-post a:hover{color:#f00;text-decoration:none}
+/* line 172 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+
+/* line 173 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .right-default-column .recent-post .featured-tags a{color:#ffa0a0 !important;font-size:12px;}
-/* line 177 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+/* line 176 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .right-default-column .recent-post .featured-tags a:hover{color:#f00 !important}
-/* line 182 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+/* line 181 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .right-default-column .current-post{border-top:5px solid #f00;border-bottom:1px solid #f00;padding-top:20px;padding-bottom:20px;margin-bottom:20px;font-family:"Open Sans",sans-serif;font-style:normal;font-weight:900;font-size:18px;line-height:18px}
-/* line 194 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+/* line 193 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .right-default-column .pagination{margin-top:30px;}
-/* line 196 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+/* line 195 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .right-default-column .pagination .newer-posts,.right-default-column .pagination .page-number,.right-default-column .pagination .older-posts,.right-default-column .pagination .no-new-post,.right-default-column .pagination .no-older-post{padding:5px 10px;font-family:"Open Sans",sans-serif;color:#000;font-size:14px;border-radius:5px;margin-right:5px}
-/* line 203 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+/* line 202 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .right-default-column .pagination .newer-posts,.right-default-column .pagination .page-number,.right-default-column .pagination .older-posts{border:1px solid}
-/* line 205 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+/* line 204 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .right-default-column .pagination .no-new-post,.right-default-column .pagination .no-older-post{border:1px solid #808080}
-/* line 207 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+/* line 206 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .right-default-column .pagination a{color:#000;}
-/* line 209 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+/* line 208 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .right-default-column .pagination a:hover{text-decoration:none;border:1px solid #e51843}
 /* line 75 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\scrolltotop.styl */
 
