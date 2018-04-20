@@ -1,11 +1,11 @@
 
-/* line 297 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
+/* line 236 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 
 /* line 1 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\node_modules\stylus\lib\functions\index.styl */
 
 /* line 1 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 html,body{height:100%;margin:0}
-/* line 20 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\node_modules\stylus\lib\functions\index.styl */
+/* line 297 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\node_modules\stylus\lib\functions\index.styl */
 
 /* line 297 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\scrolltotop.styl */
 
@@ -26,7 +26,7 @@ html,body{height:100%;margin:0}
 /* line 33 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .left-default-column .moto{font-family:'Cuprum',sans-serif;font-size:1.2em}
 /* line 37 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.left-default-column .quote{color:#808080;border-left:3px solid #808080;position:absolute;bottom:10px;font-family:'Cuprum',sans-serif;}
+.left-default-column .quote{color:#808080;position:absolute;bottom:5px;font-family:'Cuprum',sans-serif;padding-right:10px;}
 /* line 43 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .left-default-column .quote .fa-quote-left,.left-default-column .quote .fa-quote-right{color:#800080}
 /* line 46 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
@@ -125,7 +125,7 @@ html,body{height:100%;margin:0}
 .right-default-column .footer-container{background-color:#000;margin-top:70px;color:#fff;padding-top:50px;font-size:16px}
 /* line 231 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .right-default-column .disqus_thread{margin-bottom:40px}
-/* line 76 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\scrolltotop.styl */
+/* line 20 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\scrolltotop.styl */
 
 /* line 20 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
 
@@ -153,7 +153,7 @@ html,body{height:100%;margin:0}
 .overlay button{float:left;width:20%;padding:15px;background:#ddd;font-size:17px;border:none;cursor:pointer}
 /* line 75 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
 .overlay button:hover{background:#bbb}
-/* line 14 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
+/* line 76 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\overlaysearch.styl */
 
 /* line 2 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\mediaqueries.styl */
 @media (max-width:767.98px){
