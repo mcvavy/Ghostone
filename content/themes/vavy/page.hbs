@@ -1,48 +1,21 @@
 {{!< default}}
-{{!-- The tag above means: insert everything in this file
-into the {body} of the default.hbs template --}}
 
-{{!-- The big featured header, it uses blog cover image as a BG if available --}}
-<header class="site-header outer">
-    <div class="inner">
-        {{> "site-nav"}}
+<div class="row div-wapper">
+    <div class="col-md-10 offset-md-1">
+        {{#post}} 
+            <article class="{{post_class}} post after-post-margin">
+                <a class="btn read-more-butt" href="{{@blog.url}}" title="Back to homepage">Back to home</a>
+
+                <h1 class="post-title text-center">
+                    <span class="article-title">{{title}}</a>
+                </h1>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">{{content}}</div>
+                    <div class="col-md-2"></div>
+                </div>
+            </article>
+        {{/post}}
     </div>
-</header>
 
-{{!-- Everything inside the #post tags pulls data from the post --}}
-{{#post}}
-
-<main id="site-main" class="site-main outer" role="main">
-    <div class="inner">
-
-        <article class="post-full {{post_class}} {{#unless feature_image}}no-image{{/unless}}">
-
-            <header class="post-full-header">
-                <h1 class="post-full-title">{{title}}</h1>
-            </header>
-
-            {{#if feature_image}}
-            <figure class="post-full-image" style="background-image: url({{feature_image}})">
-            </figure>
-            {{/if}}
-
-            <section class="post-full-content">
-                {{content}}
-            </section>
-
-        </article>
-
-    </div>
-</main>
-
-{{/post}}
-
-{{!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs --}}
-{{#contentFor "scripts"}}
-<script>
-$(function() {
-    var $postContent = $(".post-full-content");
-    $postContent.fitVids();
-});
-</script>
-{{/contentFor}}
+</div>
