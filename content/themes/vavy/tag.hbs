@@ -10,7 +10,9 @@
 
       {{#foreach posts}}
         <article class="{{post_class}} post">
-            <h2><a href="{{url}}" title="{{title}}">{{title}}</a></h2>
+             <h1 class="post-title text-center">
+                    <a href="{{url}}" title="{{title}}" class="article-title">{{title}}</a>
+                </h1>
 
             {{!-- <div class="poster">
                 <span class="badge badge-pill badge-info"><img src="{{author.profile_image}}" class="post-image" /> by {{author.name}} |
