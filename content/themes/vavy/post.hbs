@@ -5,18 +5,18 @@
         {{#post}} 
             <article class="{{post_class}} post after-post-margin">
                 <a class="btn read-more-butt" href="{{@blog.url}}" title="Back to homepage">Back to home</a>
-                {{!-- {{#if feature_image}}
+                {{#if feature_image}}
                     <div class="post-image-div">
                         <img src="{{feature_image}}" class="page-post-image img-fluid" />
                         </a>
                     </div>
-                {{/if}} --}}
+                {{/if}}
 
                 <h1 class="post-title text-center">
                     <a href="{{url}}" title="{{title}}" class="article-title">{{title}}</a>
                 </h1>
 
-                {{#unless featured}}
+                {{!-- {{#unless featured}}
                     <div class="poster">
                         <a href="{{url}}">
                             <img src="{{author.profile_image}}" class="post-image" />
@@ -24,7 +24,7 @@
                         
                         {{author.name}} | <time datetime="{{date format=" YYYY-MM-DD "}}">{{date format="DD MMMM YYYY"}}</time>
                     </div>
-                {{/unless}} 
+                {{/unless}}  --}}
                 
                 {{content}}
             </article>
