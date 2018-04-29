@@ -211,8 +211,7 @@
                         '</div>'
                     ].join('\n'),
                     suggestion: function(data) {
-                        console.log(data);
-                        return '<p class="searchparagraph text-left"><strong><a href="' + data.slug + '"><i class="fas fa-bullseye"></i> ' + data.title + '</a></strong></p>';
+                        return `<p class="searchparagraph text-left"><strong><a href="/${data.slug}"><i class="fas fa-bullseye"></i>${data.title}</a></strong></p>`;
                     }
                 }
             }); 
