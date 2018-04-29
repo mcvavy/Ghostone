@@ -18,7 +18,7 @@ html,body{height:100%;margin:0}
 /* line 9 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 #overlaytrigger:hover{cursor:pointer;color:#e51843}
 /* line 13 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
-.left-default-column{background:-webkit-gradient(linear,left top, left bottom,from(#0e3d66),to(#072035));background:linear-gradient(to bottom,#0e3d66 0%,#072035 100%);color:#fff;padding-top:8%;height:100%;}
+.left-default-column{background:-webkit-gradient(linear,left top, left bottom,from(#0e3d66),to(#072035));background:linear-gradient(to bottom,#0e3d66 0%,#072035 100%);color:#fff;padding-top:3%;height:100%;}
 /* line 19 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
 .left-default-column .profile-image{border-radius:50%;border:2px solid #808080;width:10em;height:10em;margin-bottom:10px}
 /* line 26 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\style.styl */
@@ -172,5 +172,9 @@ html,body{height:100%;margin:0}
 /* line 12 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\mediaqueries.styl */
 
 /* line 13 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\mediaqueries.styl */
-.right-default-column .div-wapper .newer-post{margin-bottom:20px}}
+.right-default-column .div-wapper .newer-post{margin-bottom:20px}}@media (max-height:600px){
+/* line 17 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\mediaqueries.styl */
+
+/* line 18 : C:\Users\Genavy\Desktop\Projects\Ghost-1.22.1\content\themes\vavy\assets\src\mediaqueries.styl */
+.left-default-column .profile-image,.left-default-column .quote{display:none}}
 /*# sourceMappingURL=style.css.map */
