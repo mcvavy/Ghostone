@@ -1,4 +1,5 @@
 var downsize = require('downsize'),
+    Promise = require('bluebird'),
     RSS = require('rss'),
     urlService = require('../../services/url'),
     filters = require('../../filters'),
@@ -20,7 +21,7 @@ generateTags = function generateTags(data) {
 };
 
 generateItem = function generateItem(post, siteUrl, secure) {
-    var itemUrl = urlService.utils.urlFor('post', {post: post, secure: secure}, true),
+    var itemUrl = urlService.getUrlByResourceId(post.id, {secure: secure, absolute: true}),
         htmlContent = urlService.utils.makeAbsoluteUrls(post.html, siteUrl, itemUrl),
         item = {
             title: post.title,
@@ -65,38 +66,38 @@ generateItem = function generateItem(post, siteUrl, secure) {
 /**
  * Generate Feed
  *
- * Data is an object which contains the res.locals + results from fetching a channel, but without related data.
+ * Data is an object which contains the res.locals + results from fetching a collection, but without related data.
  *
  * @param {string} baseUrl
  * @param {{title, description, safeVersion, secure, posts}} data
  */
 generateFeed = function generateFeed(baseUrl, data) {
-    var siteUrl = urlService.utils.urlFor('home', {secure: data.secure}, true),
-        feedUrl = urlService.utils.urlFor({relativeUrl: baseUrl, secure: data.secure}, true),
-        feed = new RSS({
-            title: data.title,
-            description: data.description,
-            generator: 'Ghost ' + data.safeVersion,
-            feed_url: feedUrl,
-            site_url: siteUrl,
-            image_url: urlService.utils.urlFor({relativeUrl: 'favicon.png'}, true),
-            ttl: '60',
-            custom_namespaces: {
-                content: 'http://purl.org/rss/1.0/modules/content/',
-                media: 'http://search.yahoo.com/mrss/'
-            }
-        });
-
-    data.posts.forEach(function forEach(post) {
-        var item = generateItem(post, siteUrl, data.secure);
-
-        filters.doFilter('rss.item', item, post).then(function then(item) {
-            feed.item(item);
-        });
+    const siteUrl = urlService.utils.urlFor('home', {secure: data.secure}, true);
+    const feed = new RSS({
+        title: data.title,
+        description: data.description,
+        generator: 'Ghost ' + data.safeVersion,
+        feed_url: urlService.utils.urlFor({relativeUrl: baseUrl, secure: data.secure}, true),
+        site_url: siteUrl,
+        image_url: urlService.utils.urlFor({relativeUrl: 'favicon.png'}, true),
+        ttl: '60',
+        custom_namespaces: {
+            content: 'http://purl.org/rss/1.0/modules/content/',
+            media: 'http://search.yahoo.com/mrss/'
+        }
     });
 
-    return filters.doFilter('rss.feed', feed).then(function then(feed) {
-        return feed.xml();
+    return data.posts.reduce((feedPromise, post) => {
+        return feedPromise.then(() => {
+            const item = generateItem(post, siteUrl, data.secure);
+            return filters.doFilter('rss.item', item, post).then((item) => {
+                return feed.item(item);
+            });
+        });
+    }, Promise.resolve()).then(() => {
+        return filters.doFilter('rss.feed', feed).then((feed) => {
+            return feed.xml();
+        });
     });
 };
 

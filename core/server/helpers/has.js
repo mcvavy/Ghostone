@@ -1,5 +1,3 @@
-'use strict';
-
 // # Has Helper
 // Usage: `{{#has tag="video, music"}}`, `{{#has author="sam, pat"}}`
 //        `{{#has author="count:1"}}`, `{{#has tag="count:>1"}}`
@@ -35,7 +33,7 @@ function evaluateTagList(expr, tags) {
     }).reduce(function (p, c) {
         return p || (_.findIndex(tags, function (item) {
             // Escape regex special characters
-            item = item.replace(/[\-\/\\\^$*+?.()|\[\]{}]/g, '\\$&');
+            item = item.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
             item = new RegExp('^' + item + '$', 'i');
             return item.test(c);
         }) !== -1);

@@ -8,6 +8,9 @@
         },
         "notifications": {
             "defaultValue": "[]"
+        },
+        "session_secret": {
+            "defaultValue": null
         }
     },
     "blog": {
@@ -74,16 +77,16 @@
             "defaultValue" : ""
         },
         "facebook": {
-            "defaultValue" : ""
+            "defaultValue" : "ghost"
         },
         "twitter": {
-            "defaultValue" : ""
+            "defaultValue" : "tryghost"
         },
         "labs": {
             "defaultValue": "{\"publicAPI\": true}"
         },
         "navigation": {
-            "defaultValue": "[{\"label\":\"Home\", \"url\":\"/\"}]"
+            "defaultValue": "[{\"label\":\"Home\", \"url\":\"/\"},{\"label\":\"Tag\", \"url\":\"/tag/getting-started/\"}, {\"label\":\"Author\", \"url\":\"/author/ghost/\"},{\"label\":\"Help\", \"url\":\"https://help.ghost.org\"}]"
         },
         "slack": {
             "defaultValue": "[{\"url\":\"\"}]"

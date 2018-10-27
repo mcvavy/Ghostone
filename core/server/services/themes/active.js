@@ -1,13 +1,8 @@
-'use strict';
-
 /**
  * # Active Theme
  *
  * This file defines a class of active theme, and also controls the getting and setting a single instance, as there
  * can only ever be one active theme. Unlike a singleton, the active theme can change, however only in a controlled way.
- *
- * I've made use of the new class & constructor syntax here, as we are now only supporting Node v4 and above, which has
- * full support for these features.
  *
  * There are several different patterns available for keeping data private. Elsewhere in Ghost we use the
  * naming convention of the _ prefix. Even though this has the downside of not being truly private, it is still one
@@ -17,7 +12,9 @@
  *
  */
 var join = require('path').join,
+    _ = require('lodash'),
     themeConfig = require('./config'),
+    themeEngines = require('./engines'),
     config = require('../../config'),
     engine = require('./engine'),
     // Current instance of ActiveTheme
@@ -39,7 +36,7 @@ class ActiveTheme {
 
         // @TODO: get gscan to return validated, useful package.json fields for us!
         this._packageInfo = loadedTheme['package.json'];
-        this._partials =  checkedTheme.partials;
+        this._partials = checkedTheme.partials;
 
         // all custom .hbs templates (e.g. custom-about)
         this._customTemplates = checkedTheme.templates.custom;
@@ -49,6 +46,9 @@ class ActiveTheme {
 
         // Create a theme config object
         this._config = themeConfig.create(this._packageInfo);
+
+        // Create a theme engines object
+        this._engines = themeEngines.create(this._packageInfo);
     }
 
     get name() {
@@ -79,8 +79,16 @@ class ActiveTheme {
         return this._templates.indexOf(templateName) > -1;
     }
 
+    updateTemplateOptions(options) {
+        engine._options.templateOptions = _.merge(engine._options.templateOptions, options);
+    }
+
     config(key) {
         return this._config[key];
+    }
+
+    engine(key) {
+        return this._engines[key];
     }
 
     mount(siteApp) {

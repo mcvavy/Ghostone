@@ -6,7 +6,7 @@ module.exports = {
         slug: {type: 'string', maxlength: 191, nullable: false, unique: true},
         mobiledoc: {type: 'text', maxlength: 1000000000, fieldtype: 'long', nullable: true},
         html: {type: 'text', maxlength: 1000000000, fieldtype: 'long', nullable: true},
-        amp: {type: 'text', maxlength: 1000000000, fieldtype: 'long', nullable: true},
+        comment_id: {type: 'string', maxlength: 50, nullable: true},
         plaintext: {type: 'text', maxlength: 1000000000, fieldtype: 'long', nullable: true},
         feature_image: {type: 'string', maxlength: 2000, nullable: true},
         featured: {type: 'bool', nullable: false, defaultTo: false},
@@ -23,7 +23,7 @@ module.exports = {
         meta_title: {type: 'string', maxlength: 2000, nullable: true, validations: {isLength: {max: 300}}},
         meta_description: {type: 'string', maxlength: 2000, nullable: true, validations: {isLength: {max: 500}}},
         /**
-         * @deprecated: `author_id`, will be (maybe) removed in Ghost 2.0
+         * @deprecated: `author_id`, might be removed in Ghost 3.0
          * If we keep it, then only, because you can easier query post.author_id than posts_authors[*].sort_order.
          */
         author_id: {type: 'string', maxlength: 24, nullable: false},
@@ -296,9 +296,68 @@ module.exports = {
         id: {type: 'string', maxlength: 24, nullable: false, primary: true},
         event: {type: 'string', maxlength: 50, nullable: false, validations: {isLowercase: true}},
         target_url: {type: 'string', maxlength: 2000, nullable: false},
+        name: {type: 'string', maxlength: 191, nullable: true},
+        secret: {type: 'string', maxlength: 191, nullable: true},
+        api_version: {type: 'string', maxlength: 50, nullable: false, defaultTo: 'v2'},
+        integration_id: {type: 'string', maxlength: 24, nullable: true},
+        status: {type: 'string', maxlength: 50, nullable: false, defaultTo: 'available'},
+        last_triggered_at: {type: 'dateTime', nullable: true},
+        last_triggered_status: {type: 'string', maxlength: 50, nullable: true},
+        last_triggered_error: {type: 'string', maxlength: 50, nullable: true},
         created_at: {type: 'dateTime', nullable: false},
         created_by: {type: 'string', maxlength: 24, nullable: false},
         updated_at: {type: 'dateTime', nullable: true},
         updated_by: {type: 'string', maxlength: 24, nullable: true}
+    },
+    sessions: {
+        id: {type: 'string', maxlength: 24, nullable: false, primary: true},
+        session_id: {type: 'string', maxlength: 32, nullable: false, unique: true},
+        user_id: {type: 'string', maxlength: 24, nullable: false},
+        session_data: {type: 'string', maxlength: 2000, nullable: false},
+        created_at: {type: 'dateTime', nullable: false},
+        updated_at: {type: 'dateTime', nullable: true}
+    },
+    integrations: {
+        id: {type: 'string', maxlength: 24, nullable: false, primary: true},
+        name: {type: 'string', maxlength: 191, nullable: false},
+        slug: {type: 'string', maxlength: 191, nullable: false, unique: true},
+        icon_image: {type: 'string', maxlength: 2000, nullable: true},
+        description: {type: 'string', maxlength: 2000, nullable: true},
+        created_at: {type: 'dateTime', nullable: false},
+        created_by: {type: 'string', maxlength: 24, nullable: false},
+        updated_at: {type: 'dateTime', nullable: true},
+        updated_by: {type: 'string', maxlength: 24, nullable: true}
+    },
+    api_keys: {
+        id: {type: 'string', maxlength: 24, nullable: false, primary: true},
+        type: {
+            type: 'string',
+            maxlength: 50,
+            nullable: false,
+            validations: {isIn: [['content', 'admin']]}
+        },
+        secret: {
+            type: 'string',
+            maxlength: 191,
+            nullable: false,
+            unique: true,
+            validations: {isLength: {min: 128, max: 128}}
+        },
+        role_id: {type: 'string', maxlength: 24, nullable: true},
+        // integration_id is nullable to allow "internal" API keys that don't show in the UI
+        integration_id: {type: 'string', maxlength: 24, nullable: true},
+        last_seen_at: {type: 'dateTime', nullable: true},
+        last_seen_version: {type: 'string', maxlength: 50, nullable: true},
+        created_at: {type: 'dateTime', nullable: false},
+        created_by: {type: 'string', maxlength: 24, nullable: false},
+        updated_at: {type: 'dateTime', nullable: true},
+        updated_by: {type: 'string', maxlength: 24, nullable: true}
+    },
+    mobiledoc_revisions: {
+        id: {type: 'string', maxlength: 24, nullable: false, primary: true},
+        post_id: {type: 'string', maxlength: 24, nullable: false, index: true},
+        mobiledoc: {type: 'text', maxlength: 1000000000, fieldtype: 'long', nullable: true},
+        created_at_ts: {type: 'bigInteger', nullable: false},
+        created_at: {type: 'dateTime', nullable: false}
     }
 };

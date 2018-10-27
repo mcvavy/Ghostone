@@ -1,16 +1,16 @@
-var Promise = require('bluebird'),
+const Promise = require('bluebird'),
     ghostBookshelf = require('./base'),
-    common = require('../lib/common'),
-    Subscriber,
+    common = require('../lib/common');
+
+let Subscriber,
     Subscribers;
 
 Subscriber = ghostBookshelf.Model.extend({
     tableName: 'subscribers',
 
     emitChange: function emitChange(event, options) {
-        options = options || {};
-
-        common.events.emit('subscriber' + '.' + event, this, options);
+        const eventToTrigger = 'subscriber' + '.' + event;
+        ghostBookshelf.Model.prototype.emitChange.bind(this)(this, eventToTrigger, options);
     },
 
     defaults: function defaults() {
@@ -27,7 +27,7 @@ Subscriber = ghostBookshelf.Model.extend({
         model.emitChange('edited', options);
     },
 
-    onDestroyed: function onDestroyed(model, response, options) {
+    onDestroyed: function onDestroyed(model, options) {
         model.emitChange('deleted', options);
     }
 }, {
@@ -43,7 +43,7 @@ Subscriber = ghostBookshelf.Model.extend({
     },
 
     permittedOptions: function permittedOptions(methodName) {
-        var options = ghostBookshelf.Model.permittedOptions(),
+        var options = ghostBookshelf.Model.permittedOptions.call(this, methodName),
 
             // whitelists for the `options` hash argument on methods, by method name.
             // these are the only options that can be passed to Bookshelf / Knex.

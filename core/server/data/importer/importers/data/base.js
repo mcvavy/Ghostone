@@ -1,5 +1,3 @@
-'use strict';
-
 const debug = require('ghost-ignition').debug('importer:base'),
     _ = require('lodash'),
     Promise = require('bluebird'),
@@ -19,13 +17,6 @@ class Base {
             allowDuplicates: true,
             returnDuplicates: true,
             showNotFoundWarning: true
-        };
-
-        this.legacyKeys = {};
-        this.legacyMapper = (item) => {
-            return _.mapKeys(item, (value, key) => {
-                return this.legacyKeys[key] || key;
-            });
         };
 
         this.dataKeyToImport = options.dataKeyToImport;
@@ -199,7 +190,7 @@ class Base {
             // CASE: you import null, fallback to owner
             if (!obj[key]) {
                 if (!userReferenceProblems[obj.id]) {
-                    userReferenceProblems[obj.id] = {obj: obj, keys: []};
+                    userReferenceProblems[obj.id] = {obj: _.cloneDeep(obj), keys: []};
                 }
 
                 userReferenceProblems[obj.id].keys.push(key);
@@ -217,7 +208,7 @@ class Base {
                 // CASE: fallback to owner
                 if (!existingUser) {
                     if (!userReferenceProblems[obj.id]) {
-                        userReferenceProblems[obj.id] = {obj: obj, keys: []};
+                        userReferenceProblems[obj.id] = {obj: _.cloneDeep(obj), keys: []};
                     }
 
                     userReferenceProblems[obj.id].keys.push(key);
@@ -264,7 +255,7 @@ class Base {
 
                 if (!existingUser) {
                     if (!userReferenceProblems[obj.id]) {
-                        userReferenceProblems[obj.id] = {obj: obj, keys: []};
+                        userReferenceProblems[obj.id] = {obj: _.cloneDeep(obj), keys: []};
                     }
 
                     userReferenceProblems[obj.id].keys.push(key);
@@ -303,7 +294,7 @@ class Base {
 
         let ops = [];
 
-        _.each(this.dataToImport, (obj) => {
+        _.each(this.dataToImport, (obj, index) => {
             ops.push(() => {
                 return models[this.modelName].add(obj, options)
                     .then((importedModel) => {
@@ -319,10 +310,12 @@ class Base {
                         this.importedData.push({
                             id: importedModel.id,
                             slug: importedModel.get('slug'),
+                            originalSlug: obj.slug,
                             email: importedModel.get('email')
                         });
 
-                        return importedModel;
+                        importedModel = null;
+                        this.dataToImport.splice(index, 1);
                     })
                     .catch((err) => {
                         return this.handleError(err, obj);
@@ -338,7 +331,11 @@ class Base {
          *
          *       Promise.map(.., {concurrency: Int}) was not really improving the end performance for me.
          */
-        return sequence(ops);
+        return sequence(ops).then((response) => {
+            this.dataToImport = null;
+            ops = null;
+            return response;
+        });
     }
 }
 
