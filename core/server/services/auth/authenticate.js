@@ -1,10 +1,11 @@
-var passport = require('passport'),
-    authUtils = require('./utils'),
-    models = require('../../models'),
-    common = require('../../lib/common'),
-    authenticate;
+const passport = require('passport');
+const authUtils = require('./utils');
+const models = require('../../models');
+const common = require('../../lib/common');
+const session = require('./session');
+const apiKeyAuth = require('./api-key');
 
-authenticate = {
+const authenticate = {
     // ### Authenticate Client Middleware
     authenticateClient: function authenticateClient(req, res, next) {
         /**
@@ -40,7 +41,7 @@ authenticate = {
             return next(new common.errors.UnauthorizedError({
                 message: common.i18n.t('errors.middleware.auth.accessDenied'),
                 context: common.i18n.t('errors.middleware.auth.clientCredentialsNotProvided'),
-                help: common.i18n.t('errors.middleware.auth.forInformationRead', {url: 'http://api.ghost.org/docs/client-authentication'})
+                help: common.i18n.t('errors.middleware.auth.forInformationRead', {url: 'https://api.ghost.org/docs/client-authentication'})
             }));
         }
 
@@ -58,7 +59,7 @@ authenticate = {
                     return next(new common.errors.UnauthorizedError({
                         message: common.i18n.t('errors.middleware.auth.accessDenied'),
                         context: common.i18n.t('errors.middleware.auth.clientCredentialsNotValid'),
-                        help: common.i18n.t('errors.middleware.auth.forInformationRead', {url: 'http://api.ghost.org/docs/client-authentication'})
+                        help: common.i18n.t('errors.middleware.auth.forInformationRead', {url: 'https://api.ghost.org/docs/client-authentication'})
                     }));
                 }
 
@@ -98,7 +99,11 @@ authenticate = {
                 }));
             }
         )(req, res, next);
-    }
+    },
+
+    // ### v2 API auth middleware
+    authenticateAdminAPI: [session.safeGetSession, session.getUser],
+    authenticateContentApiKey: apiKeyAuth.content.authenticateContentApiKey
 };
 
 module.exports = authenticate;

@@ -1,12 +1,15 @@
-var _ = require('lodash'),
-    api = require('../../api'),
+const _ = require('lodash'),
+    api = require('../../api/v0.1'),
     helpers = require('../../helpers/register'),
     filters = require('../../filters'),
     common = require('../../lib/common'),
-    router = require('../route').appRouter,
-    generateProxyFunctions;
+    routingService = require('../routing');
+
+let generateProxyFunctions;
 
 generateProxyFunctions = function (name, permissions, isInternal) {
+    const appRouter = routingService.registry.getRouter('appRouter');
+
     var getPermission = function (perm) {
             return permissions[perm];
         },
@@ -77,7 +80,7 @@ generateProxyFunctions = function (name, permissions, isInternal) {
         // Expose the route service...
         routeService: {
             // This allows for mounting an entirely new Router at a path...
-            registerRouter: checkRegisterPermissions('routes', router.mountRouter.bind(router))
+            registerRouter: checkRegisterPermissions('routes', appRouter.mountRouter.bind(appRouter))
         },
         // Mini proxy to the API - needs review
         api: {

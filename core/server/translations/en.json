@@ -73,8 +73,15 @@
                 "clientCredentialsNotProvided": "Client credentials were not provided",
                 "clientCredentialsNotValid": "Client credentials were not valid",
                 "forInformationRead": "For information on how to fix this, please read {url}.",
+                "unknownOrigin": "Could not determine origin of request. Please ensure an Origin or Referrer header is present.",
+                "mismatchedOrigin": "Request made from incorrect origin. Expected '{expected}' received '{actual}'.",
+                "missingUserIDForSession": "Cannot create session without user id.",
                 "accessDenied": "Access denied.",
-                "pleaseSignIn": "Please Sign In"
+                "pleaseSignIn": "Please Sign In",
+                "pleaseSignInOrAuthenticate": "Please sign in or authenticate with an API Key",
+                "unknownAdminApiKey": "Unknown Admin API Key",
+                "unknownContentApiKey": "Unknown Content API Key",
+                "invalidApiKeyType": "Invalid API Key type"
             },
             "oauth": {
                 "invalidClient": "Invalid client.",
@@ -124,6 +131,9 @@
             "blogIcon": {
                 "error": "Could not fetch icon dimensions."
             },
+            "images": {
+                "invalidDimensions": "Could not fetch image dimensions."
+            },
             "redirectsWrongFormat": "Incorrect redirects file format."
         },
         "config": {
@@ -171,7 +181,8 @@
             }
         },
         "general": {
-            "maintenance": "Ghost is currently undergoing maintenance, please wait a moment then retry.",
+            "maintenance": "Site is currently undergoing maintenance, please wait a moment then retry.",
+            "maintenanceUrlService": "Site is starting up, please wait a moment then retry.",
             "requiredOnFuture": "This will be required in future. Please see {link}",
             "internalError": "Something went wrong.",
             "jsonParse": "Could not parse JSON: {context}."
@@ -202,6 +213,9 @@
         },
         "models": {
             "subscriber": {
+                "notEnoughPermission": "You do not have permission to perform this action"
+            },
+            "invite": {
                 "notEnoughPermission": "You do not have permission to perform this action"
             },
             "post": {
@@ -335,6 +349,9 @@
             "posts": {
                 "postNotFound": "Post not found."
             },
+            "pages": {
+                "pageNotFound": "Page not found."
+            },
             "job": {
                 "notFound": "Job not found.",
                 "publishInThePast": "Use the force flag to publish a post in the past."
@@ -342,6 +359,13 @@
             "redirects": {
                 "missingFile": "Please select a JSON file.",
                 "invalidFile": "Please select a valid JSON file to import."
+            },
+            "resource": {
+                "resourceNotFound": "{resource} not found."
+            },
+            "routes": {
+                "missingFile": "Please select a YAML file.",
+                "invalidFile": "Please select a valid YAML file to import."
             },
             "settings": {
                 "problemFindingSetting": "Problem finding setting: {key}",
@@ -374,6 +398,7 @@
                 "noPermissionToEditThemes": "You do not have permission to edit themes.",
                 "themeDoesNotExist": "Theme does not exist.",
                 "invalidTheme": "Theme is not compatible or contains errors.",
+                "invalidThemeName": "Please select a valid theme.",
                 "missingFile": "Please select a theme.",
                 "invalidFile": "Please select a valid zip file.",
                 "overrideCasper": "Please rename your zip, it's not allowed to override the default casper theme.",
@@ -382,7 +407,8 @@
             },
             "images": {
                 "missingFile": "Please select an image.",
-                "invalidFile": "Please select a valid image."
+                "invalidFile": "Please select a valid image.",
+                "isNotSquare": "Please select a valid image file with square dimensions."
             },
             "icons": {
                 "missingFile": "Please select an icon.",
@@ -421,7 +447,11 @@
                 "notAllowedToInvite": "Not allowed to invite this role."
             },
             "webhooks": {
-                "webhookAlreadyExists": "A webhook for requested event with supplied target_url already exists."
+                "webhookAlreadyExists": "Target URL has already been used for this event."
+            },
+            "oembed": {
+                "noUrlProvided": "No url provided.",
+                "unknownProvider": "No provider found for supplied URL."
             }
         },
         "data": {
@@ -467,6 +497,15 @@
                     "error": "The {service} service was unable to send a ping request, your blog will continue to function.",
                     "help": "If you get this error repeatedly, please seek help on {url}."
                 }
+            },
+            "settings": {
+                "yaml": {
+                    "error": "Could not parse {file}: {context}.",
+                    "help": "Check your {file} file for typos and fix the named issues.",
+                    "validate": "The following definition \"{at}\" is invalid: {reason}"
+                },
+                "loader": "Error trying to load YAML setting for {setting} from '{path}'.",
+                "ensureSettings": "Error trying to access settings files in {path}."
             }
         },
         "errors": {

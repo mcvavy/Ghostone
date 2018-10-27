@@ -1,8 +1,6 @@
-'use strict';
-
 const _ = require('lodash'),
     Promise = require('bluebird'),
-    common = require('../../lib/common/index');
+    common = require('../../lib/common');
 
 /**
  * Why and when do we have to fetch `authors` by default?
@@ -101,9 +99,16 @@ module.exports.extendModel = function extendModel(Post, Posts, ghostBookshelf) {
         // NOTE: `post.author` was always ignored [unsupported]
         onSaving: function (model, attrs, options) {
             /**
-             * @deprecated: `author`, will be removed in Ghost 2.0
+             * @deprecated: `author`, will be removed in Ghost 3.0
              */
             model.unset('author');
+
+            // CASE: you can't delete all authors
+            if (model.get('authors') && !model.get('authors').length) {
+                throw new common.errors.ValidationError({
+                    message: 'At least one author is required.'
+                });
+            }
 
             // CASE: `post.author_id` has changed
             if (model.hasChanged('author_id')) {
@@ -124,13 +129,6 @@ module.exports.extendModel = function extendModel(Post, Posts, ghostBookshelf) {
                         model.set('author_id', model.get('authors')[0].id);
                     }
                 }
-            }
-
-            // CASE: you can't delete all authors
-            if (model.get('authors') && !model.get('authors').length) {
-                throw new common.errors.ValidationError({
-                    message: 'At least one author is required.'
-                });
             }
 
             // CASE: if you change `post.author_id`, we have to update the primary author
@@ -166,7 +164,7 @@ module.exports.extendModel = function extendModel(Post, Posts, ghostBookshelf) {
 
             /**
              * CASE: `author` was requested, `posts.authors` must exist
-             * @deprecated: `author`, will be removed in Ghost 2.0
+             * @deprecated: `author`, will be removed in Ghost 3.0
              */
             if (this._originalOptions.withRelated && this._originalOptions.withRelated && this._originalOptions.withRelated.indexOf('author') !== -1) {
                 if (!authors.models.length) {
@@ -179,6 +177,7 @@ module.exports.extendModel = function extendModel(Post, Posts, ghostBookshelf) {
                 delete attrs.author_id;
             } else {
                 // CASE: we return `post.author=id` with or without requested columns.
+                // @NOTE: this serialization should be moved into api layer, it's not being moved as it's deprecated
                 if (!options.columns || (options.columns && options.columns.indexOf('author') !== -1)) {
                     attrs.author = attrs.author_id;
                     delete attrs.author_id;
@@ -192,7 +191,7 @@ module.exports.extendModel = function extendModel(Post, Posts, ghostBookshelf) {
 
             // If the current column settings allow it...
             if (!options.columns || (options.columns && options.columns.indexOf('primary_author') > -1)) {
-                // ... attach a computed property of primary_author which is the first tag
+                // ... attach a computed property of primary_author which is the first author
                 if (attrs.authors && attrs.authors.length) {
                     attrs.primary_author = attrs.authors[0];
                 } else {
@@ -251,8 +250,7 @@ module.exports.extendModel = function extendModel(Post, Posts, ghostBookshelf) {
         permissible: function permissible(postModelOrId, action, context, unsafeAttrs, loadedPermissions, hasUserPermission, hasAppPermission) {
             var self = this,
                 postModel = postModelOrId,
-                origArgs, isContributor, isAuthor, isEdit, isAdd, isDestroy,
-                result = {};
+                origArgs, isContributor, isAuthor, isEdit, isAdd, isDestroy;
 
             // If we passed in an id instead of a model, get the model
             // then check the permissions
@@ -334,14 +332,6 @@ module.exports.extendModel = function extendModel(Post, Posts, ghostBookshelf) {
                 hasUserPermission = hasUserPermission || isCurrentOwner();
             }
 
-            // @TODO: we need a concept for making a diff between incoming authors and existing authors
-            // @TODO: for now we simply re-use the new concept of `excludedAttrs`
-            // We only check the primary author of `authors`, any other change will be ignored.
-            // By this we can deprecate `author_id` more easily.
-            if (isContributor || isAuthor) {
-                result.excludedAttrs = ['authors'];
-            }
-
             if (hasUserPermission && hasAppPermission) {
                 return Post.permissible.call(
                     this,
@@ -350,9 +340,19 @@ module.exports.extendModel = function extendModel(Post, Posts, ghostBookshelf) {
                     unsafeAttrs,
                     loadedPermissions,
                     hasUserPermission,
-                    hasAppPermission,
-                    result
-                );
+                    hasAppPermission
+                ).then(({excludedAttrs}) => {
+                    // @TODO: we need a concept for making a diff between incoming authors and existing authors
+                    // @TODO: for now we simply re-use the new concept of `excludedAttrs`
+                    // We only check the primary author of `authors`, any other change will be ignored.
+                    // By this we can deprecate `author_id` more easily.
+                    if (isContributor || isAuthor) {
+                        return {
+                            excludedAttrs: ['authors'].concat(excludedAttrs)
+                        };
+                    }
+                    return {excludedAttrs};
+                });
             }
 
             return Promise.reject(new common.errors.NoPermissionError({

@@ -4,4 +4,4 @@ var knexMigrator = new KnexMigrator({
 });
 
 knexMigrator.init();
-// knexMigrator.migrate();
+//knexMigrator.migrate();

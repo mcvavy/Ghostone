@@ -1,4 +1,4 @@
-var _ = require('lodash'),
+const _ = require('lodash'),
     Promise = require('bluebird'),
     validator = require('validator'),
     ObjectId = require('bson-objectid'),
@@ -9,15 +9,16 @@ var _ = require('lodash'),
     imageLib = require('../lib/image'),
     pipeline = require('../lib/promise/pipeline'),
     validation = require('../data/validation'),
+    permissions = require('../services/permissions'),
     activeStates = ['active', 'warn-1', 'warn-2', 'warn-3', 'warn-4'],
     /**
      * inactive: owner user before blog setup, suspended users
      * locked user: imported users, they get a random passport
      */
     inactiveStates = ['inactive', 'locked'],
-    allStates = activeStates.concat(inactiveStates),
-    User,
-    Users;
+    allStates = activeStates.concat(inactiveStates);
+
+let User, Users;
 
 User = ghostBookshelf.Model.extend({
 
@@ -25,28 +26,31 @@ User = ghostBookshelf.Model.extend({
 
     defaults: function defaults() {
         return {
-            password: security.identifier.uid(50)
+            password: security.identifier.uid(50),
+            visibility: 'public',
+            status: 'active'
         };
     },
 
     emitChange: function emitChange(event, options) {
-        common.events.emit('user' + '.' + event, this, options);
+        const eventToTrigger = 'user' + '.' + event;
+        ghostBookshelf.Model.prototype.emitChange.bind(this)(this, eventToTrigger, options);
     },
 
-    onDestroyed: function onDestroyed(model, response, options) {
+    onDestroyed: function onDestroyed(model, options) {
         if (_.includes(activeStates, model.previous('status'))) {
             model.emitChange('deactivated', options);
         }
 
-        model.emitChange('deleted');
+        model.emitChange('deleted', options);
     },
 
-    onCreated: function onCreated(model) {
-        model.emitChange('added');
+    onCreated: function onCreated(model, attrs, options) {
+        model.emitChange('added', options);
 
         // active is the default state, so if status isn't provided, this will be an active user
         if (!model.get('status') || _.includes(activeStates, model.get('status'))) {
-            model.emitChange('activated');
+            model.emitChange('activated', options);
         }
     },
 
@@ -58,11 +62,11 @@ User = ghostBookshelf.Model.extend({
             model.emitChange(model.isActive ? 'activated' : 'deactivated', options);
         } else {
             if (model.isActive) {
-                model.emitChange('activated.edited');
+                model.emitChange('activated.edited', options);
             }
         }
 
-        model.emitChange('edited');
+        model.emitChange('edited', options);
     },
 
     isActive: function isActive() {
@@ -168,7 +172,9 @@ User = ghostBookshelf.Model.extend({
                 passwordValidation = validation.validatePassword(this.get('password'), this.get('email'));
 
                 if (!passwordValidation.isValid) {
-                    return Promise.reject(new common.errors.ValidationError({message: passwordValidation.message}));
+                    return Promise.reject(new common.errors.ValidationError({
+                        message: passwordValidation.message
+                    }));
                 }
             }
 
@@ -231,6 +237,10 @@ User = ghostBookshelf.Model.extend({
 
     posts: function posts() {
         return this.hasMany('Posts', 'created_by');
+    },
+
+    sessions: function sessions() {
+        return this.hasMany('Sessions');
     },
 
     roles: function roles() {
@@ -312,14 +322,14 @@ User = ghostBookshelf.Model.extend({
      * @return {Array} Keys allowed in the `options` hash of the model's method.
      */
     permittedOptions: function permittedOptions(methodName, options) {
-        var permittedOptionsToReturn = ghostBookshelf.Model.permittedOptions(),
+        var permittedOptionsToReturn = ghostBookshelf.Model.permittedOptions.call(this, methodName),
 
             // whitelists for the `options` hash argument on methods, by method name.
             // these are the only options that can be passed to Bookshelf / Knex.
             validOptions = {
                 findOne: ['withRelated', 'status'],
                 setup: ['id'],
-                edit: ['withRelated', 'id', 'importPersistUser'],
+                edit: ['withRelated', 'importPersistUser'],
                 add: ['importPersistUser'],
                 findPage: ['page', 'limit', 'columns', 'filter', 'order', 'status'],
                 findAll: ['filter']
@@ -404,7 +414,9 @@ User = ghostBookshelf.Model.extend({
 
         if (data.roles && data.roles.length > 1) {
             return Promise.reject(
-                new common.errors.ValidationError({message: common.i18n.t('errors.models.user.onlyOneRolePerUserSupported')})
+                new common.errors.ValidationError({
+                    message: common.i18n.t('errors.models.user.onlyOneRolePerUserSupported')
+                })
             );
         }
 
@@ -412,7 +424,9 @@ User = ghostBookshelf.Model.extend({
             ops.push(function checkForDuplicateEmail() {
                 return self.getByEmail(data.email, options).then(function then(user) {
                     if (user && user.id !== options.id) {
-                        return Promise.reject(new common.errors.ValidationError({message: common.i18n.t('errors.models.user.userUpdateError.emailIsAlreadyInUse')}));
+                        return Promise.reject(new common.errors.ValidationError({
+                            message: common.i18n.t('errors.models.user.userUpdateError.emailIsAlreadyInUse')
+                        }));
                     }
                 });
             });
@@ -437,7 +451,9 @@ User = ghostBookshelf.Model.extend({
                 }).then(function then(roleToAssign) {
                     if (roleToAssign && roleToAssign.get('name') === 'Owner') {
                         return Promise.reject(
-                            new common.errors.ValidationError({message: common.i18n.t('errors.models.user.methodDoesNotSupportOwnerRole')})
+                            new common.errors.ValidationError({
+                                message: common.i18n.t('errors.models.user.methodDoesNotSupportOwnerRole')
+                            })
                         );
                     } else {
                         // assign all other roles
@@ -475,7 +491,9 @@ User = ghostBookshelf.Model.extend({
 
         // check for too many roles
         if (data.roles && data.roles.length > 1) {
-            return Promise.reject(new common.errors.ValidationError({message: common.i18n.t('errors.models.user.onlyOneRolePerUserSupported')}));
+            return Promise.reject(new common.errors.ValidationError({
+                message: common.i18n.t('errors.models.user.onlyOneRolePerUserSupported')
+            }));
         }
 
         function getAuthorRole() {
@@ -549,7 +567,9 @@ User = ghostBookshelf.Model.extend({
         passwordValidation = validation.validatePassword(userData.password, userData.email, data.blogTitle);
 
         if (!passwordValidation.isValid) {
-            return Promise.reject(new common.errors.ValidationError({message: passwordValidation.message}));
+            return Promise.reject(new common.errors.ValidationError({
+                message: passwordValidation.message
+            }));
         }
 
         userData.slug = null;
@@ -639,7 +659,9 @@ User = ghostBookshelf.Model.extend({
         if (action === 'destroy') {
             // Owner cannot be deleted EVER
             if (userModel.hasRole('Owner')) {
-                return Promise.reject(new common.errors.NoPermissionError({message: common.i18n.t('errors.models.user.notEnoughPermission')}));
+                return Promise.reject(new common.errors.NoPermissionError({
+                    message: common.i18n.t('errors.models.user.notEnoughPermission')
+                }));
             }
 
             // Users with the role 'Editor' have complex permissions when the action === 'destroy'
@@ -649,11 +671,82 @@ User = ghostBookshelf.Model.extend({
             }
         }
 
+        // CASE: can't edit my own status to inactive or locked
+        if (action === 'edit' && userModel.id === context.user) {
+            if (User.inactiveStates.indexOf(unsafeAttrs.status) !== -1) {
+                return Promise.reject(new common.errors.NoPermissionError({
+                    message: common.i18n.t('errors.api.users.cannotChangeStatus')
+                }));
+            }
+        }
+
+        // CASE: i want to edit roles
+        if (action === 'edit' && unsafeAttrs.roles && unsafeAttrs.roles[0]) {
+            let role = unsafeAttrs.roles[0];
+            let roleId = role.id || role;
+            let editedUserId = userModel.id;
+            // @NOTE: role id of logged in user
+            let contextRoleId = loadedPermissions.user.roles[0].id;
+
+            if (roleId !== contextRoleId && editedUserId === context.user) {
+                return Promise.reject(new common.errors.NoPermissionError({
+                    message: common.i18n.t('errors.api.users.cannotChangeOwnRole')
+                }));
+            }
+
+            return User.getOwnerUser()
+                .then((owner) => {
+                    // CASE: owner can assign role to any user
+                    if (context.user === owner.id) {
+                        if (hasUserPermission && hasAppPermission) {
+                            return Promise.resolve();
+                        }
+
+                        return Promise.reject(new common.errors.NoPermissionError({
+                            message: common.i18n.t('errors.models.user.notEnoughPermission')
+                        }));
+                    }
+
+                    // CASE: You try to change the role of the owner user
+                    if (editedUserId === owner.id) {
+                        if (owner.related('roles').at(0).id !== roleId) {
+                            return Promise.reject(new common.errors.NoPermissionError({
+                                message: common.i18n.t('errors.api.users.cannotChangeOwnersRole')
+                            }));
+                        }
+                    } else if (roleId !== contextRoleId) {
+                        // CASE: you are trying to change a role, but you are not owner
+                        // @NOTE: your role is not the same than the role you try to change (!)
+                        // e.g. admin can assign admin role to a user, but not owner
+                        return permissions.canThis(context).assign.role(role)
+                            .then(() => {
+                                if (hasUserPermission && hasAppPermission) {
+                                    return Promise.resolve();
+                                }
+
+                                return Promise.reject(new common.errors.NoPermissionError({
+                                    message: common.i18n.t('errors.models.user.notEnoughPermission')
+                                }));
+                            });
+                    }
+
+                    if (hasUserPermission && hasAppPermission) {
+                        return Promise.resolve();
+                    }
+
+                    return Promise.reject(new common.errors.NoPermissionError({
+                        message: common.i18n.t('errors.models.user.notEnoughPermission')
+                    }));
+                });
+        }
+
         if (hasUserPermission && hasAppPermission) {
             return Promise.resolve();
         }
 
-        return Promise.reject(new common.errors.NoPermissionError({message: common.i18n.t('errors.models.user.notEnoughPermission')}));
+        return Promise.reject(new common.errors.NoPermissionError({
+            message: common.i18n.t('errors.models.user.notEnoughPermission')
+        }));
     },
 
     // Finds the user by email, and checks the password
@@ -771,19 +864,30 @@ User = ghostBookshelf.Model.extend({
                 // check if user has the owner role
                 var currentRoles = contextUser.toJSON(options).roles;
                 if (!_.some(currentRoles, {id: ownerRole.id})) {
-                    return Promise.reject(new common.errors.NoPermissionError({message: common.i18n.t('errors.models.user.onlyOwnerCanTransferOwnerRole')}));
+                    return Promise.reject(new common.errors.NoPermissionError({
+                        message: common.i18n.t('errors.models.user.onlyOwnerCanTransferOwnerRole')
+                    }));
                 }
 
                 return Promise.join(ghostBookshelf.model('Role').findOne({name: 'Administrator'}),
                     User.findOne({id: object.id}, {withRelated: ['roles']}));
             })
             .then(function then(results) {
-                var adminRole = results[0],
-                    user = results[1],
-                    currentRoles = user.toJSON(options).roles;
+                const adminRole = results[0];
+                const user = results[1];
+
+                if (!user) {
+                    return Promise.reject(new common.errors.NotFoundError({
+                        message: common.i18n.t('errors.models.user.userNotFound')
+                    }));
+                }
+
+                const currentRoles = user.toJSON(options).roles;
 
                 if (!_.some(currentRoles, {id: adminRole.id})) {
-                    return Promise.reject(new common.errors.ValidationError({message: common.i18n.t('errors.models.user.onlyAdmCanBeAssignedOwnerRole')}));
+                    return Promise.reject(new common.errors.ValidationError({
+                        message: common.i18n.t('errors.models.user.onlyAdmCanBeAssignedOwnerRole')
+                    }));
                 }
 
                 // convert owner to admin
@@ -795,10 +899,6 @@ User = ghostBookshelf.Model.extend({
                 return Users.forge()
                     .query('whereIn', 'id', [contextUser.id, results[2]])
                     .fetch({withRelated: ['roles']});
-            })
-            .then(function then(users) {
-                options.withRelated = ['roles'];
-                return users.toJSON(options);
             });
     },
 

@@ -1,15 +1,13 @@
-var Settings,
-    Promise = require('bluebird'),
+const Promise = require('bluebird'),
     _ = require('lodash'),
     uuid = require('uuid'),
     crypto = require('crypto'),
     ghostBookshelf = require('./base'),
     common = require('../lib/common'),
     validation = require('../data/validation'),
+    internalContext = {context: {internal: true}};
 
-    internalContext = {context: {internal: true}},
-
-    defaultSettings;
+let Settings, defaultSettings;
 
 // For neatness, the defaults file is split into categories.
 // It's much easier for us to work with it as a single level
@@ -19,7 +17,8 @@ function parseDefaultSettings() {
         defaultSettingsFlattened = {},
         dynamicDefault = {
             db_hash: uuid.v4(),
-            public_hash: crypto.randomBytes(15).toString('hex')
+            public_hash: crypto.randomBytes(15).toString('hex'),
+            session_secret: crypto.randomBytes(32).toString('hex')
         };
 
     _.each(defaultSettingsInCategories, function each(settings, categoryName) {
@@ -58,21 +57,22 @@ Settings = ghostBookshelf.Model.extend({
     },
 
     emitChange: function emitChange(event, options) {
-        common.events.emit('settings' + '.' + event, this, options);
+        const eventToTrigger = 'settings' + '.' + event;
+        ghostBookshelf.Model.prototype.emitChange.bind(this)(this, eventToTrigger, options);
     },
 
-    onDestroyed: function onDestroyed(model, response, options) {
-        model.emitChange('deleted');
-        model.emitChange(model.attributes.key + '.' + 'deleted', options);
+    onDestroyed: function onDestroyed(model, options) {
+        model.emitChange('deleted', options);
+        model.emitChange(model._previousAttributes.key + '.' + 'deleted', options);
     },
 
     onCreated: function onCreated(model, response, options) {
-        model.emitChange('added');
+        model.emitChange('added', options);
         model.emitChange(model.attributes.key + '.' + 'added', options);
     },
 
     onUpdated: function onUpdated(model, response, options) {
-        model.emitChange('edited');
+        model.emitChange('edited', options);
         model.emitChange(model.attributes.key + '.' + 'edited', options);
     },
 
