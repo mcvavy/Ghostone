@@ -20,7 +20,7 @@ gulp.task('build', ['css'], function (/* cb */) {
 });
 
 gulp.task('css', function () {
-    return gulp.src('assets/src/style.styl')
+    return gulp.src('assets/src/screen.styl')
         .pipe(sourcemaps.init())
         .pipe(stylus({
             linenos: true,
