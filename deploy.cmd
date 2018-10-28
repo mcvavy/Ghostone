@@ -2,7 +2,7 @@
 
 :: ----------------------
 :: KUDU Deployment Script
-:: Version: 1.0.17
+:: Version: 1.0.9
 :: ----------------------
 
 :: Prerequisites
@@ -63,7 +63,7 @@ IF DEFINED KUDU_SELECT_NODE_VERSION_CMD (
     SET /p NODE_EXE=<"%DEPLOYMENT_TEMP%\__nodeVersion.tmp"
     IF !ERRORLEVEL! NEQ 0 goto error
   )
-  
+
   IF EXIST "%DEPLOYMENT_TEMP%\__npmVersion.tmp" (
     SET /p NPM_JS_PATH=<"%DEPLOYMENT_TEMP%\__npmVersion.tmp"
     IF !ERRORLEVEL! NEQ 0 goto error
@@ -97,19 +97,16 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 :: 2. Select node version
 call :SelectNodeVersion
 
-:: 3. Install npm packages
+:: 3. Install Yarn
+echo Verifying Yarn Install.
+call :ExecuteCmd !NPM_CMD! install yarn -g
+SET PATH=%PATH%;D:\local\AppData\npm
+
+:: 4. Install Yarn packages
+echo Installing Yarn Packages.
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
-  call :ExecuteCmd !NPM_CMD! config set scripts-prepend-node-path true
-  call :ExecuteCmd !NPM_CMD! install --production
-  IF !ERRORLEVEL! NEQ 0 goto error
-  popd
-)
-
-:: 4. Handle database creation and migrations.
-IF EXIST "%DEPLOYMENT_TARGET%\db.js" (
-  pushd "%DEPLOYMENT_TARGET%"
-  call :ExecuteCmd "!NODE_EXE!" db.js
+  call :ExecuteCmd yarn install --production
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
 )
