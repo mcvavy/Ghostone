@@ -100,7 +100,6 @@ call :SelectNodeVersion
 :: 3. Install Yarn
 echo Verifying Yarn Install.
 call :ExecuteCmd !NPM_CMD! install yarn -g
-SET PATH=%PATH%;D:\local\AppData\npm
 
 :: 4. Install Yarn packages
 echo Installing Yarn Packages.
